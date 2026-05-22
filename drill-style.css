@@ -1,0 +1,1178 @@
+/* Base Themes matching Fredoka Font style */
+body {
+    font-family: 'Fredoka', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9fc;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 1. TOP NAVBAR DESIGN */
+.top-navbar {
+    background-color: #F4BE52;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.3rem;
+}
+
+.back-arrow {
+    cursor: pointer;
+    font-weight: 600;
+    color: #5c6bc0;
+    transition: transform 0.2s;
+}
+
+.back-arrow:hover {
+    transform: translateX(-3px);
+}
+
+.top-navbar h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2c3e50;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.student-profile {
+    font-weight: 600;
+    color: #2ecc71;
+    background-color: #e8f8f0;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* 2. THE CONTENT WRAPPER LAYOUT */
+.app-container {
+    display: flex;
+    flex: 1; /* Fills remaining height */
+    height: calc(100vh - 70px);
+}
+
+/* 3. SIDEBAR NAVIGATION DESIGN */
+.sidebar {
+    width: 280px;
+    background-color: #F2A05E;
+    border-right: 2px solid #edf2f7;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.sidebar-header img{
+    width: 100px;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.7rem;
+}
+
+.sidebar-menu {
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.menu-item {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    background: none;
+    border: 2px solid transparent;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #555;
+}
+
+.menu-item:hover {
+    background-color: #f0f3f6;
+    color: #2c3e50;
+}
+
+/* Highlight Selected Drill Technique */
+.menu-item.active {
+    background-color: #ebf3ff;
+    border-color: #3498db;
+    color: #2980b9;
+    font-weight: 600;
+}
+
+/* 4. MAIN WINDOW ARCHITECTURE */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-image: url('assets/BG_img2.png'); /* Adjust path if it is inside an assets folder */
+    background-size: cover;                      /* Scales the image to cover the entire window */
+    background-position: center;                  /* Centers the background image */
+    background-repeat: no-repeat;
+    overflow-y: auto;
+}
+
+.drill-window {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #e2e8f0;
+}
+
+.drill-status-bar {
+    background-color: #fdfefe;
+    padding: 15px 25px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #34495e;
+}
+
+#drillProgress {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* 1. THE OUTER BOUNDARY (Locks things inside the main container view box) */
+.playground-window {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafbfc;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    overflow: hidden; /* Prevents background image escaping past rounded corners */
+}
+
+/* 2. THE BACKGROUND IMAGE LAYER (Perfect Size, Never Zooms, Never Scrolls) */
+.playground-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Apply image and color overlay tint directly here */
+    background-image: linear-gradient(rgba(250, 251, 252, 0.85), rgba(250, 251, 252, 0.85)), url('assets/SPES.jpg');
+    
+    /* Fits the image completely inside the view box context without blowing up */
+    background-size: 100% 100%; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+    z-index: 1;
+    pointer-events: none; /* Let clicks pass right through to buttons */
+}
+
+/* 3. THE ACTIVE CONTENT GAME CANVAS (Handles ONLY your scrolling and cards) */
+.game-playground {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    
+    /* Allows your long game cards to scroll cleanly over the fixed image behind it */
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    z-index: 2; /* Pushes cards in front of background layer */
+}
+
+.placeholder-text {
+    color: #bdc3c7;
+    font-style: italic;
+}
+
+.mute-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* GAME CARD MAIN BODY LAYOUT */
+.groups-game-card {
+    max-width: 650px !important;
+    width: 100%; /* Ensures it stays crisp and responsive */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    /* OPTIONAL FIX: Keeps it centered when there's room, allows scrolling when there isn't */
+    margin: auto 0; 
+}
+
+.game-section {
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 2px dashed #cbd5e1;
+}
+
+.instruction {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    text-align: left;
+}
+
+/* VISUAL GROUP ELEMENTS */
+.emoji-groups-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 10px 0;
+}
+
+.emoji-group {
+    background: #fff9db;
+    border: 3px solid #fcc419;
+    padding: 12px 24px;
+    border-radius: 50%;
+    font-size: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* SENTENCE AND DROP BLOCKS */
+.sentence-builder {
+    font-size: 1.25rem;
+    margin: 5px 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.drop-zone {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    background: #f1f3f5;
+    border: 2px dashed #adb5bd;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.3rem;
+    color: #495057;
+    margin: 0 5px;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.2s;
+}
+
+.drop-zone.hovered {
+    background: #e3fafc;
+    border-color: #1098ad;
+    transform: scale(1.1);
+}
+
+.drop-zone.filled {
+    border-style: solid;
+    background: #e8f7ff;
+    border-color: #3498db;
+    color: #2980b9;
+}
+
+/* VALIDATION STATES */
+.drop-zone.correct {
+    background: #d3f9d8 !important;
+    border-color: #2b8a3e !important;
+    color: #2b8a3e !important;
+}
+
+.drop-zone.incorrect {
+    background: #fff5f5 !important;
+    border-color: #c92a2a !important;
+    color: #c92a2a !important;
+    animation: shake 0.3s ease-in-out;
+}
+
+/* NUMBER STORAGE BANK */
+.number-bank-container {
+    margin-top: 10px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+}
+
+.bank-label {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.number-pool {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.drag-item {
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    background: #3498db;
+    color: white;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: grab;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+    user-select: none;
+    transition: transform 0.1s, opacity 0.1s;
+}
+
+.drag-item:active {
+    cursor: grabbing;
+}
+
+.drag-item.dragging {
+    opacity: 0.4;
+    transform: scale(0.9);
+}
+
+/* SUBMIT BUTTON */
+.check-game-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+    transition: all 0.2s;
+}
+
+.check-game-btn:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+/* Shaking animation for incorrect drops */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* ARRAY LAYOUT SPECIFIC DESIGNS */
+.arrays-game-card {
+    max-width: 650px !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: auto 0;
+}
+
+/* Structural display wrappers for managing alignment grid indicators */
+.array-container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.row-indicator-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 140px; /* Aligns with grid size */
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e67e22;
+    text-align: right;
+}
+
+/* THE 3x2 DINO GRID MATRIX */
+.array-grid-3x2 {
+    display: grid;
+    grid-template-columns: repeat(2, 60px);
+    grid-template-rows: repeat(3, 50px);
+    gap: 10px;
+    background: #eef2f7;
+    padding: 15px;
+    border-radius: 12px;
+    border: 3px solid #d1d8e0;
+    justify-content: center;
+}
+
+.array-cell {
+    background: #ffffff;
+    border: 2px solid #b2bec3;
+    border-radius: 8px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.column-indicator-labels {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-left: 75px; /* Offsets labels to map perfectly underneath columns */
+    margin-top: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #9b59b6;
+    text-align: center;
+}
+
+/* Sentence formatting polishments */
+.formula-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.formula-label {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    font-weight: 400;
+    margin-right: 5px;
+}
+
+/* MULTIPLES GAME SPECIFIC LAYOUT */
+.multiples-game-card {
+    max-width: 650px !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: auto 0;
+}
+
+/* BIG EQUATION DISPLAY */
+.target-equation {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.multiples-total-zone {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    line-height: 50px;
+    background: #f1f3f5;
+    border: 3px dashed #adb5bd;
+    border-radius: 12px;
+    color: #7f8c8d;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.multiples-total-zone.solved-total {
+    background: #d3f9d8;
+    border: 3px solid #2b8a3e;
+    color: #2b8a3e;
+    animation: popScale 0.3s ease-out;
+}
+
+/* HORIZONTAL STEP SEQUENCE TRACKER */
+.multiples-track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0 5px 0;
+    overflow-x: auto;
+    padding: 5px;
+}
+
+.track-node {
+    flex: 1;
+    min-width: 40px;
+    height: 45px;
+    line-height: 41px;
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #adb5bd;
+    transition: all 0.2s;
+}
+
+.track-node.active-node {
+    border-color: #3498db;
+    background: #e8f7ff;
+    color: #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+    transform: scale(1.05);
+}
+
+.track-node.correct-node {
+    background: #2ecc71;
+    border-color: #27ae60;
+    color: white;
+}
+
+.track-subtext {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin: 5px 0 0 0;
+    font-weight: 600;
+}
+
+/* CLICKABLE MULTIPLE CHOICE BUTTON GRID */
+.multiples-choices-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.choice-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    background: white;
+    border: 2px solid #cbd5e1;
+    color: #2c3e50;
+    padding: 12px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    transition: transform 0.1s, background 0.2s, border-color 0.2s;
+}
+
+.choice-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    transform: translateY(-2px);
+}
+
+.choice-btn:active {
+    transform: translateY(0);
+}
+
+.choice-btn.wrong-choice {
+    background-color: #fff5f5 !important;
+    border-color: #e74c3c !important;
+    color: #e74c3c !important;
+    animation: shake 0.3s ease-in-out;
+}
+
+/* MISCELLANEOUS BUTTONS */
+.reset-multiples-btn {
+    font-family: 'Fredoka', sans-serif;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+}
+
+.reset-multiples-btn:hover {
+    background: #7f8c8d;
+}
+
+@keyframes popScale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* JUMPS ON A NUMBER LINE SPECIFIC LAYOUT */
+.jumps-game-card {
+    max-width: 650px !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: auto 0;
+}
+
+.jumps-total-zone {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    line-height: 50px;
+    background: #eef2f7;
+    border: 3px solid #3498db;
+    border-radius: 12px;
+    color: #2980b9;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* CANVAS DRAWING BLOCK STRUCTURE */
+.canvas-container {
+    width: 100%;
+    overflow-x: auto; /* Ensures layout scales flawlessly on narrower viewports */
+    background: #ffffff;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#numberLineCanvas {
+    display: block;
+}
+
+/* CHUNKY INTERACTIVE SLIDER STYLING */
+.slider-control-box {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+}
+
+.slider-hint-label {
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    color: #475569;
+    font-size: 1rem;
+}
+
+.slider-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.range-bound {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #64748b;
+    width: 20px;
+}
+
+/* Standardizing the look of the input track slider slider bar */
+.interactive-frog-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    border-radius: 6px;
+    background: #cbd5e1;
+    outline: none;
+    transition: background 0.2s;
+}
+
+.interactive-frog-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e67e22;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.1s;
+}
+
+.interactive-frog-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background: #d35400;
+}
+
+.interactive-frog-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: #e67e22;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.1s;
+}
+
+.interactive-frog-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    background: #d35400;
+}
+
+/* QUESTION BANK LAYOUT CONTROLS */
+.qbank-game-card {
+    max-width: 550px !important;
+    width: 100%;
+    margin: auto 0;
+    gap: 15px;
+}
+
+/* STREAK PROGRESS VISUALS */
+.qbank-streak-tracker {
+    text-align: left;
+    font-size: 0.9rem;
+    color: #475569;
+}
+.qbank-streak-tracker p { margin: 0 0 6px 0; }
+
+.streak-bar-outer {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.streak-bar-inner {
+    height: 100%;
+    background: #f1c40f;
+    border-radius: 5px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* CARDS */
+.qbank-question-box {
+    background: #ffffff;
+    border: 3px solid #e2e8f0;
+    text-align: center;
+    padding: 30px 15px;
+    position: relative;
+}
+
+.qbank-level-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #9b59b6;
+    color: white;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.qbank-question-text {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+/* SELECTION OPTIONS GRID */
+.qbank-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.qbank-choice-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    background: white;
+    border: 2px solid #cbd5e1;
+    color: #34495e;
+    padding: 16px 0;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: all 0.15s ease;
+}
+
+.qbank-choice-btn:hover {
+    background: #f8fafc;
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+/* 🐹 THE CINEMATIC FULLSCREEN DIM BACKGROUND TINT */
+.mascot-fullscreen-backdrop {
+    position: fixed; /* Takes it completely out of the playground layout */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.65); /* Darkened more to put heavy emphasis on the popup */
+    backdrop-filter: blur(4px); /* Soft focus effect behind the mascot box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Forces it over the navigation bar, sidebar, and workspace layout */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Vertical Stack layout organizing the callout perfectly above Teach Hams */
+.mascot-dialogue-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 440px;
+    width: 90%;
+    padding: 20px;
+}
+
+/* Beautiful Comic-Book Pop Speech Bubble Box */
+.mascot-speech-bubble {
+    position: relative;
+    background: #ffffff;
+    border: 4px solid #2c3e50;
+    border-radius: 24px;
+    padding: 20px 24px;
+    text-align: center;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    animation: mascotFloat 3s infinite ease-in-out;
+}
+
+.mascot-greeting {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #e67e22; /* Warm bright accent orange color */
+    margin: 0 0 8px 0;
+}
+
+.mascot-instructions {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #34495e;
+    margin: 0;
+}
+
+/* The pointing triangular arrow centering under the bubble canvas */
+.speech-bubble-arrow {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid #2c3e50; /* Matches bubble outer border line */
+}
+
+/* Inner overlay matching arrow to draw transparent fill cutouts */
+.speech-bubble-arrow::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 14px solid #ffffff; /* Fills arrow center white */
+}
+
+/* Character Dimension Proportions */
+.mascot-character-wrapper {
+    width: 160px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: mascotFloat 3s infinite ease-in-out;
+    animation-delay: 0.2s; /* Creates a slight elastic offset to the hover effect */
+}
+
+.hamster-game-mascot {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+}
+
+/* Smooth fluid floating animation loop to give Teach Hams some personality */
+@keyframes mascotFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Clean UI utility to hide the screen overlay smoothly once clicked */
+.hidden-mascot-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* 🐹 MASCOT OVERLAY DISMISS BUTTON */
+.mascot-ok-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background: #e67e22; /* Vibrant accent orange color */
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 12px;
+    margin-top: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b35d15; /* Retro 3D button effect */
+    transition: all 0.1s ease;
+    display: inline-block;
+}
+
+.mascot-ok-btn:hover {
+    background: #f39c12;
+    transform: translateY(1px);
+    box-shadow: 0 3px 0 #b35d15;
+}
+
+.mascot-ok-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 #b35d15;
+}
+
+/* Clean UI utility to hide the screen overlay smoothly once clicked */
+.hidden-mascot-overlay {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    display: none !important; /* 🐹 THIS LINE ENFORCES COMPLETE CONTAINER DISMISSAL */
+}
+
+/* 🎊 GRAND FINALE CONFETTI ENGINE CSS */
+.confetti-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Allows clicks to pass through to the button behind it */
+    z-index: 99998;       /* Sits just underneath the main speech bubble modal */
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -20px;
+    width: 12px;
+    height: 12px;
+    background-color: #f1c40f;
+    opacity: 0.85;
+    border-radius: 3px;
+    animation: fallAndSpin linear infinite;
+}
+
+@keyframes fallAndSpin {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(105vh) rotate(720deg);
+        opacity: 0.3;
+    }
+}
+
+/* 🍎 UNIVERSAL STYLING FOR DYNAMIC DRILL GRAPHICS */
+.drill-graphic-item {
+    width: 48px;         /* Uniform compact width */
+    height: 48px;        /* Uniform compact height */
+    object-fit: contain; /* Prevents stretching */
+    vertical-align: middle;
+    margin: 2px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15)); /* Adds clean depth */
+}
+
+/* 🎯 SPLIT-SCREEN USER CONTROLS PANEL (LEFT/RIGHT FIXED SIDE DOCKS) */
+.drill-interaction-zone, .check-game-btn {
+    position: fixed;
+    z-index: 999; /* Keeps controls safely floating above scrolling graphics */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 3px solid #F4BE52;
+}
+
+/* Reset parent clearance spacing since nothing is pinned to the bottom anymore */
+.drill-interaction-card {
+    position: relative;
+    padding-bottom: 40px !important; 
+}
+
+/* 👉 DOCK 1: DRAGGABLE NUMBERS BANK OVER ON THE MID-RIGHT SIDE */
+.drill-interaction-card .drill-interaction-zone {
+    bottom: auto;
+    top: 50%;
+    right: auto; /* Snaps to the right edge of the window */
+    left: 355px;
+    transform: translateY(-50%); /* Perfectly centers vertically on screen */
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 140px; /* Constrains width to create a vertical stack of numbers */
+    max-width: 140px;
+}
+
+/* Adjust layout parameters for text labels inside the vertical right dock */
+.drill-interaction-card .bank-label {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Adjust the inner grid of numbers to display neatly in columns inside the side bar pocket */
+.drill-interaction-card .drag-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Forms a compact 2-column number pad */
+    gap: 8px;
+    width: 100%;
+}
+
+/* 👈 DOCK 2: VERIFICATION CHECK BUTTON OVER ON THE MID-LEFT SIDE */
+.drill-interaction-card .check-game-btn {
+    bottom: auto;
+    top: 50%;
+    right: 75px; /* Places it on the left side, sitting right next to your sidebar container */
+    transform: translateY(-50%); /* Centers vertically on screen */
+    width: auto;
+    min-width: 160px;
+    max-width: 200px;
+    margin: 0 !important;
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    white-space: normal; /* Allows text to wrap comfortably if needed */
+    text-align: center;
+}
+
+/* 🏫 TEACHER HUB STYLING */
+.teacher-trigger-btn {
+    position: fixed;
+    top: 18px;
+    right: 375px; /* Positions it nicely on the navbar layer */
+    z-index: 9999;
+    background: #5c6bc0;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Fredoka', sans-serif;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.teacher-config-card {
+    display: none; /* Controlled by toggle JS */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: white;
+    border: 4px solid #5c6bc0;
+    border-radius: 24px;
+    padding: 24px;
+    z-index: 100000;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    font-family: 'Fredoka', sans-serif;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.panel-header h4 { margin: 0; color: #3f51b5; font-size: 1.3rem; }
+.close-panel-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888; }
+.panel-desc { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
+.config-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label { font-weight: 600; color: #333; }
+.input-group select {
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.save-config-btn { background: #2ecc71; color: white; border: none; padding: 12px; border-radius: 12px; flex: 1; cursor: pointer; font-weight: 600; }
+.reset-config-btn { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 12px; flex: 1; cursor: pointer; font-weight: 600; }

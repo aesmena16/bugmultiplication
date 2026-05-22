@@ -1,0 +1,768 @@
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Body */
+
+body{
+
+    font-family:'Fredoka', sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+
+    /* Background Image */
+
+    background-image:
+        url("assets/BG_img.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+/* Dark Overlay */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    z-index:-1;
+}
+
+/* Welcome Card */
+
+.welcome-card{
+    width:380px;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(5px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    animation:fadeIn 1s ease;
+}
+
+/* Title */
+
+.welcome-card h1{
+    color:#4fac47;
+    margin-bottom:15px;
+    font-size:36px;
+}
+
+/* Paragraph */
+
+.welcome-card p{
+    margin-bottom:15px;
+    color:#444;
+    font-size:18px;
+}
+
+/* Input */
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:15px;
+    border:2px solid #ddd;
+    font-size:18px;
+    margin-bottom:20px;
+    text-align:center;
+    font-family:'Fredoka', sans-serif;
+}
+
+/* Button */
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:15px;
+    background:#ff9f43;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    transition:0.3s;
+    font-family:'Fredoka', sans-serif;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:#ff7f00;
+}
+
+/* Loader */
+.loader{
+    width:70px;
+    height:70px;
+    border:8px solid #eee;
+    border-top:8px solid #ff9f43;
+    border-radius:50%;
+    margin:auto;
+    margin-bottom:20px;
+    animation:spin 1s linear infinite;
+}
+
+/* Hidden */
+.hidden{
+    display:none;
+}
+
+/* Loading Title */
+
+#loadingSection h2{
+    color:#555;
+    font-size:28px;
+}
+
+/* Animation */
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Saved Message */
+#savedMessage{
+    margin-top:15px;
+    color:green;
+    font-weight:bold;
+}
+
+/* Dashboard */
+
+.dashboard-container{
+    width:90%;
+    max-width:1000px;
+    text-align:center;
+}
+
+.dashboard-container h1{
+    color:white;
+    font-size: 44px;
+    margin-bottom:10px;
+}
+
+.dashboard-container h2{
+    color:white;
+    font-style: italic;
+    margin-bottom:30px;
+}
+
+/* Grid */
+
+.levels-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+    gap:20px;
+}
+
+/* Cards */
+
+.level-card{
+    position:relative;
+    width: 100%;
+    max-width: 380px;
+    height:320px;
+    background-image:
+        url("assets/board.png");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.3s;
+}
+
+.level-card h3{
+    margin-bottom:10px;
+}
+
+.level-card p{
+    margin-bottom:15px;
+}
+
+.level-card button{
+    background:#72882E;
+    border:none;
+    padding:10px 16px;
+    border-radius:15px;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+    font-family:'Fredoka', sans-serif;
+}
+
+.level-card button:hover{
+    transform:scale(1.08);
+    background:#ff7f00;
+}
+
+.level-card:hover{
+    transform:translateY(-10px) scale(1.03);
+}
+
+.board-content{
+    width:75%;
+    text-align:center;
+    margin-top:-10px;
+}
+
+/* Level Title */
+
+.board-content h3{
+    font-size:22px;
+    color:white;
+    margin-bottom:10px;
+    text-shadow:
+        2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Status */
+.board-content p{
+    font-size:16px;
+    color:#fff;
+    margin-bottom:15px;
+    text-shadow:
+        2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Locked */
+.locked{
+    opacity:0.65;
+}
+
+/* Unlocked 
+.unlocked{
+    border:4px solid #4CAF50;
+}*/
+
+/* Reset Button */
+.reset-btn{
+    margin-top:30px;
+    background:#f44336;
+}
+
+.reset-btn:hover{
+    background:#d32f2f;
+}
+
+/* =========================
+   DINOSAUR LOADING SCREEN
+========================= */
+
+.loading-title{
+    font-size:30px;
+    color:#ff6b6b;
+    margin-bottom:25px;
+    animation: bounce 1.5s infinite;
+    position: relative;
+    z-index: 50;
+}
+
+/* Loading Area */
+
+.loading-area{
+    position:relative;
+    width:100%;
+    padding:20px 0;
+    z-index: 1;
+}
+
+/* Progress Track */
+
+.progress-track{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: #dfe6e9;
+    border-radius: 50px;
+    overflow: visible;
+    border: 4px solid #74b9ff;
+}
+
+/* Progress Fill */
+
+#progressFill{
+    position:absolute;
+    width:0%;
+    height:100%;
+    background:linear-gradient(
+        to right,
+        #55efc4,
+        #00cec9
+    );
+    border-radius:50px;
+    transition:width 0.1s linear;
+}
+
+/* Dinosaur */
+
+#dino{
+    position: absolute;
+    /* center vertically inside bar */
+    top: 50%;
+    transform: translate(-60%, -60%) scaleX(1);
+    font-size: 45px;
+    left: 0%;
+    z-index: 999;
+    transition: left 0.1s linear;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+#dino {
+    will-change: left;
+}
+
+#dino img{
+    width:120px;
+    height:auto;
+    display:block;
+}
+
+/* Percentage Text */
+#progressText{
+    margin-top:20px;
+    font-size:28px;
+    color:#0984e3;
+    font-weight:bold;
+}
+
+/* Clouds */
+.cloud{
+    position:absolute;
+    background:#83C8F2;
+    border-radius:50px;
+    opacity:0.8;
+    z-index: 0;
+}
+
+.cloud::before,
+.cloud::after{
+    content:"";
+    position:absolute;
+    background:#83C8F2;
+    border-radius:50%;
+}
+
+.cloud1{
+    width:80px;
+    height:30px;
+    top:-20px;
+    left:10%;
+    animation:moveClouds 5s linear infinite;
+}
+
+.cloud1::before{
+    width:40px;
+    height:40px;
+    top:-20px;
+    left:10px;
+}
+
+.cloud1::after{
+
+    width:50px;
+    height:50px;
+
+    top:-25px;
+    right:10px;
+}
+
+.cloud2{
+
+    width:70px;
+    height:25px;
+
+    top:-10px;
+    left:60%;
+
+    animation:moveClouds 16s linear infinite;
+}
+
+.cloud2::before{
+
+    width:35px;
+    height:35px;
+
+    top:-15px;
+    left:10px;
+}
+
+.cloud2::after{
+
+    width:40px;
+    height:40px;
+
+    top:-20px;
+    right:8px;
+}
+
+.cloud3{
+
+    width:60px;
+    height:20px;
+
+    top:80px;
+    left:30%;
+
+    animation:moveClouds 20s linear infinite;
+}
+
+.cloud3::before{
+
+    width:30px;
+    height:30px;
+
+    top:-15px;
+    left:8px;
+}
+
+.cloud3::after{
+
+    width:35px;
+    height:35px;
+
+    top:-18px;
+    right:5px;
+}
+
+/*#greetingMessage{
+    font-size:18px;
+    color:#ff7f00;
+    margin-bottom:15px;
+    font-weight:bold;
+    animation:fadeIn 1s ease;
+}*/
+
+.dino-callout{
+    display:flex;
+    align-items:flex-end;
+    top: 5%;
+    gap:10px;
+    margin-bottom:20px;
+    justify-content:center;
+}
+
+.callout-dino{
+    width:200px;
+    height:auto;
+    animation: bounce 1.5s infinite;
+}
+
+.callout-bubble{
+    background:white;
+    padding:12px 16px;
+    border-radius:20px;
+    width: 550px;
+    max-width:90%;
+    position:relative;
+    box-shadow:0 6px 15px rgba(0,0,0,0.2);
+    font-size:24px;
+    color:#333;
+}
+
+/* speech bubble tail */
+.callout-bubble::after{
+    content:"";
+    position:absolute;
+    left:-10px;
+    bottom:50px;
+    width:0;
+    height:0;
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    border-right:10px solid white;
+}
+
+.dino-callout{
+    position:absolute;
+    top:-50px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2000;
+}
+
+.hide-mascots{
+    display:none !important;
+}
+
+.hidden{
+    display:none !important;
+}
+/* Dino Floating */
+
+@keyframes floatingDino{
+
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(-8px);
+    }
+}
+
+/* Clouds Movement */
+
+@keyframes moveClouds{
+
+    from{
+        transform:translateX(-40px);
+    }
+
+    to{
+        transform:translateX(40px);
+    }
+}
+
+/* Bounce */
+
+@keyframes bounce{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+/* Welcome Screen */
+
+#welcomeScreen{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+/* Mascot */
+
+#mascot{
+
+    position:absolute;
+
+    z-index:1000;
+
+    animation: mascotFloat 2s ease-in-out infinite;
+
+    pointer-events:none;
+
+    filter: drop-shadow(
+        0 8px 12px rgba(0,0,0,0.3)
+    );
+}
+
+#mascot2{
+
+    position:absolute;
+
+    z-index:1000;
+
+    pointer-events:none;
+
+    filter: drop-shadow(
+        0 8px 12px rgba(0,0,0,0.3)
+    );
+}
+
+#mascot3{
+
+    position:absolute;
+    transform: scaleX(-1);
+    z-index:1000;
+    animation: mascotFloat2 2s ease-in-out infinite;
+    pointer-events:none;
+
+    filter: drop-shadow(
+        0 8px 12px rgba(0,0,0,0.3)
+    );
+}
+
+/* Floating Animation */
+
+@keyframes mascotFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+@keyframes mascotFloat2{
+
+    0%{
+        transform:translateY(-12px);
+    }
+
+    50%{
+        transform:translateY(0px);
+    }
+
+    100%{
+        transform:translateY(-12px);
+    }
+}
+
+/* 🐹 THE CINEMATIC FULLSCREEN DIM BACKGROUND TINT */
+    .mascot-fullscreen-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(4px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mascot-dialogue-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        max-width: 440px;
+        width: 90%;
+        padding: 20px;
+    }
+
+    .mascot-speech-bubble {
+        position: relative;
+        background: #ffffff;
+        border: 4px solid #2c3e50;
+        border-radius: 24px;
+        padding: 20px 24px;
+        text-align: center;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        animation: mascotFloat 3s infinite ease-in-out;
+    }
+
+    .mascot-greeting {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #e67e22;
+        margin: 0 0 8px 0;
+    }
+
+    .mascot-instructions {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: #34495e;
+        margin: 0;
+    }
+
+    .speech-bubble-arrow {
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 16px solid #2c3e50;
+    }
+
+    .speech-bubble-arrow::after {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -10px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 14px solid #ffffff;
+    }
+
+    .mascot-ok-btn {
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 600;
+        font-size: 1.1rem;
+        background: #e67e22;
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 12px;
+        margin-top: 15px;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #b35d15;
+        transition: all 0.1s ease;
+        display: inline-block;
+    }
+
+    .mascot-ok-btn:hover { background: #f39c12; transform: translateY(1px); box-shadow: 0 3px 0 #b35d15; }
+    .mascot-ok-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 #b35d15; }
+
+    .mascot-character-wrapper {
+        width: 160px;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: mascotFloat 3s infinite ease-in-out;
+        animation-delay: 0.2s;
+    }
+
+    .hamster-game-mascot {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+    }
+
+    @keyframes mascotFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* UI Toggle Class Rules */
+    .hidden-mascot-overlay {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }

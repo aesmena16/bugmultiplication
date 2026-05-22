@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Multiplication Drill</title>
+
+    <!-- Cute Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="welcomeScreen">
+
+        <!-- Mascot Image -->
+        <img src="assets/dino2.png"
+            id="mascot">
+        
+        <img src="assets/dino.png"
+            id="mascot2">
+
+        <div id="dinoCallout" class="dino-callout hidden">
+                <img src="assets/dinoegg.png" class="callout-dino">
+                <div class="callout-bubble">
+                    <p id="calloutText"></p>
+                </div>
+            </div>
+
+        <div class="welcome-card" id="welcomeCard">
+
+            <!-- Loading Animation -->
+<div id="loadingSection">
+
+    <h2 class="loading-title">
+        Preparing Your Math Adventure...
+    </h2>
+
+    <!-- Sky Area -->
+    <div class="loading-area">
+
+        <!-- Clouds -->
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+
+        <!-- Progress Track -->
+        <div class="progress-track">
+
+            <!-- Dinosaur -->
+            <div id="dino">
+                <img src="assets/t-rex.gif">
+            </div>
+
+            <!-- Progress Fill -->
+            <div id="progressFill"></div>
+
+        </div>
+
+        <!-- Percentage -->
+        <div id="progressText">
+            0%
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- Main Welcome Content -->
+            <div id="mainContent" class="hidden">
+                
+                <h1>Multiplication Adventure</h1>
+
+                <p>Enter your name to begin!</p>
+
+                <input type="text"
+                       id="learnerName"
+                       placeholder="Your Name">
+
+                <button id="startBtn">
+                    Start Learning
+                </button>
+
+                <p id="savedMessage"></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" src="assets/Index.mp3" loop></audio>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

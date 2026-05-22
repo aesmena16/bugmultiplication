@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Drills</title>
+    
+    <!-- Cute Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Reference your stylesheet -->
+    <link rel="stylesheet" href="drill-style.css">
+</head>
+<body>
+
+    <!-- 1. TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="nav-left">
+            <span class="back-arrow" onclick="goToDashboard()">⬅ Dashboard</span>
+        </div>
+        <div class="nav-right">
+            <button id="muteBtn" class="mute-btn" onclick="toggleMute()">🎵 Music On</button>
+            <span id="studentName" class="student-profile">👑 Loading...</span>
+            <button class="logout-btn" onclick="logout()">Log Out</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- 2. SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/t-rex.gif">
+                <h3 id="currentLevelHeader">Level: Loading...</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <button class="menu-item active" id="btn-groups" onclick="switchDrill('groups')">
+                    📦 Groups of Quantities
+                </button>
+                <button class="menu-item" id="btn-arrays" onclick="switchDrill('arrays')">
+                    🧮 Arrays
+                </button>
+                <button class="menu-item" id="btn-multiples" onclick="switchDrill('multiples')">
+                    🔢 Counting by Multiples
+                </button>
+                <button class="menu-item" id="btn-jumps" onclick="switchDrill('jumps')">
+                    🐸 Jumps on a Number Line
+                </button>
+            </nav>
+        </aside>
+
+        <!-- 3. MAIN DRILL PLAYGROUND -->
+        <main class="main-content">
+            <div id="teacherPanel" class="teacher-config-card">
+    <div class="panel-header">
+        <h4>Teacher Control Hub: Customize Advancing Level</h4>
+        <button class="close-panel-btn" onclick="toggleTeacherPanel(false)">✕</button>
+    </div>
+    <p class="panel-desc">Set specific numbers or ranges for the dynamic Question Bank. Leave fields blank or set to "Any" for fully random questions.</p>
+    
+    <div class="config-grid">
+        <div class="input-group">
+            <label for="customFirstNum">First Number (Multiplicand):</label>
+            <select id="customFirstNum">
+                <option value="any">Any Random Number (1-10)</option>
+                <option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                <option value="5">5</option><option value="6">6</option><option value="7">7</option>
+                <option value="8">8</option><option value="9">9</option><option value="10">10</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="customSecondNum">Second Number (Multiplier):</label>
+            <select id="customSecondNum">
+                <option value="any">Any Random Number (1-10)</option>
+                <option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                <option value="5">5</option><option value="6">6</option><option value="7">7</option>
+                <option value="8">8</option><option value="9">9</option><option value="10">10</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="panel-actions">
+        <button class="save-config-btn" onclick="saveTeacherSettings()">Apply</button>
+        <button class="reset-config-btn" onclick="resetTeacherSettings()">Reset</button>
+    </div>
+</div>
+
+<button id="teacherTriggerBtn" class="teacher-trigger-btn" onclick="toggleTeacherPanel(true)">⚙️ Teacher Settings</button>
+
+            <div class="drill-window">
+                <div class="drill-status-bar">
+                    <span id="drillTitle">Groups of Equal Quantities</span>
+                    <span id="drillProgress">Status: Loading...</span>
+                </div>
+                
+                <!-- =============== NEW WRAPPER PLACEMENT START =============== -->
+                <div class="playground-window">
+                    
+                    <!-- Faded, unzoomed background layer -->
+                    <div class="playground-bg-layer"></div>
+                    
+                    <!-- Your original Game Canvas/Interaction Space -->
+                    <div id="gamePlayground" class="game-playground">
+                        <!-- Dynamic interactive UI components go here -->
+                        <p class="placeholder-text">Select a drill to start!</p>
+                    </div>
+
+                </div>
+                <!-- =============== NEW WRAPPER PLACEMENT END =============== -->
+
+            </div>
+        </main>
+    </div>
+
+    <div id="mascotTutorialOverlay" class="mascot-fullscreen-backdrop">
+    <div class="mascot-dialogue-container">
+        
+        <div class="mascot-speech-bubble">
+            <p class="mascot-greeting">Hi there, Champ!</p>
+            <p id="mascotDynamicMessage" class="mascot-instructions">
+                Welcome! Select one of the math drills from the sidebar menu on the left, and let's start our multiplication adventure together!
+            </p>
+            
+            <button class="mascot-ok-btn" onclick="hideMascotOverlay()">Let's Go!</button>
+            
+            <div class="speech-bubble-arrow"></div>
+        </div>
+
+        <div class="mascot-character-wrapper">
+            <img src="assets/Teach Hams.png" alt="Teach Hams Mascot" class="hamster-game-mascot">
+        </div>
+        
+    </div>
+</div>
+
+    <div id="gameFeedbackOverlay" class="mascot-fullscreen-backdrop hidden-mascot-overlay">
+        <div class="mascot-dialogue-container">
+            
+            <div class="mascot-speech-bubble">
+                <p id="feedbackTitle" class="mascot-greeting">Great Job! 🎉</p>
+                <p id="feedbackMessage" class="mascot-instructions">That is exactly correct!</p>
+                
+                <button id="feedbackBtn" class="mascot-ok-btn" onclick="closeFeedbackOverlay()">Continue 🚀</button>
+                
+                <div class="speech-bubble-arrow"></div>
+            </div>
+
+            <div class="mascot-character-wrapper">
+                <img id="feedbackMascotImg" src="assets/Teach Hams.png" alt="Feedback Mascot" class="hamster-game-mascot">
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="confettiContainer" class="confetti-wrapper hidden-mascot-overlay"></div>
+
+    <audio id="bgMusic" src="assets/Drill.mp3" loop></audio>
+
+    <!-- JavaScript Handling App Logic -->
+    <script>
+
+        // Toggle Visibility of the Control Panel View
+function toggleTeacherPanel(show) {
+    const panel = document.getElementById("teacherPanel");
+    if (panel) panel.style.display = show ? "block" : "none";
+    
+    // Auto-load currently saved rules if opening
+    if (show) {
+        const rules = JSON.parse(localStorage.getItem("teacherDrillRules")) || { num1: "any", num2: "any" };
+        document.getElementById("customFirstNum").value = rules.num1;
+        document.getElementById("customSecondNum").value = rules.num2;
+    }
+}
+
+// Save custom parameters to memory
+function saveTeacherSettings() {
+    const num1 = document.getElementById("customFirstNum").value;
+    const num2 = document.getElementById("customSecondNum").value;
+    
+    const rules = { num1: num1, num2: num2 };
+    localStorage.setItem("teacherDrillRules", JSON.stringify(rules));
+    
+    showGameFeedback('correct', "Teacher preferences applied successfully! 🏫🍎");
+    toggleTeacherPanel(false);
+    
+    // If the learner is currently playing the Advancing level, instantly reload the question card!
+    if (currentLevel === "Advancing") {
+        loadQuestionBankEngine();
+    }
+}
+
+// Wipe rules out of memory back to vanilla math configurations
+function resetTeacherSettings() {
+    localStorage.removeItem("teacherDrillRules");
+    document.getElementById("customFirstNum").value = "any";
+    document.getElementById("customSecondNum").value = "any";
+    
+    showGameFeedback('correct', "Reset back to automatic standard configurations!");
+    toggleTeacherPanel(false);
+    
+    if (currentLevel === "Advancing") {
+        loadQuestionBankEngine();
+    }
+}
+
+        // Global variables
+        let learner = JSON.parse(localStorage.getItem("learnerProgress"));
+        let currentLevel = "";
+        let currentDrill = "groups"; // Default drill
+        let musicStarted = false; // Tracks if the music has successfully started playing
+
+        // Safety redirect if someone bypasses login
+        if (!learner) {
+            window.location.href = "index.html";
+        }
+
+        // Initialize Page Setup on Load
+        window.onload = function() {
+            // 1. Parse Level from URL String (e.g., ?level=Developing)
+            const urlParams = new URLSearchParams(window.location.search);
+            currentLevel = urlParams.get('level') || "Emerging";
+            
+            // 2. Populate User Interfaces
+            document.getElementById("studentName").innerText = "👑 " + learner.name;
+            document.getElementById("currentLevelHeader").innerText = "Level: " + currentLevel;
+            
+            // 3. Update drill tracking states
+            updateDrillStatus();
+
+            // 🐹 FIX: Fire greeting generation safely right here!
+            initializeMascotGreeting();
+
+            // Set up a backup click listener on the entire page 
+            // This ensures music starts if they click anywhere on the app
+            document.body.addEventListener('click', startBackgroundMusic, { once: true });
+        };
+        
+        // Function to handle the music playback safely
+        function startBackgroundMusic() {
+            if (!musicStarted) {
+                const audio = document.getElementById("bgMusic");
+        
+                audio.volume = 0.15; // Set volume low (15%) so it's pleasant background audio
+        
+                audio.play()
+                    .then(() => {
+                        musicStarted = true;
+                        console.log("Music started playing smoothly!");
+                    })
+                    .catch(error => {
+                        console.log("Browser blocked autoplay. Will try again on next click.", error);
+                    });
+            }
+        }
+        
+        // Navigation actions
+        function goToDashboard() {
+            window.location.href = "dashboard.html";
+        }
+
+        function logout() {
+            let confirmLogout = confirm("Are you sure you want to log out?");
+            if (confirmLogout) {
+                // Keep progress, just kick back to index
+                window.location.href = "index.html";
+            }
+        }
+
+        // Sidebar Navigation Mechanics
+        function switchDrill(drillType) {
+            currentDrill = drillType;
+    
+            // Trigger music attempt when they choose a drill
+            startBackgroundMusic();
+    
+            // (Keep your existing switchDrill code below...)
+            document.querySelectorAll('.menu-item').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${drillType}`).classList.add('active');
+    
+            const titles = {
+                groups: "Groups of Equal Quantities",
+                arrays: "Arrays Drill",
+                multiples: "Counting by Multiples",
+                jumps: "Equal Jumps on a Number Line"
+            };
+            document.getElementById("drillTitle").innerText = titles[drillType];
+            
+            // NEW: Smoothly slide away the full-screen mascot overlay once they select a game track
+    const overlay = document.getElementById("mascotTutorialOverlay");
+    if (overlay) {
+        overlay.classList.add("hidden-mascot-overlay");
+    }
+
+    // ... your remaining sidebar highlighting and loadDrillGame() rules continue below ...
+    const headerElement = document.getElementById("currentLevelHeader");
+    if (headerElement) {
+        const headerText = headerElement.innerText;
+        currentLevel = headerText.replace("Level:", "").trim();
+    }
+    
+    document.querySelectorAll('.sidebar-menu .menu-item').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`btn-${drillType}`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+            updateDrillStatus();
+            loadDrillGame();
+        }
+        
+        function toggleMute() {
+            const audio = document.getElementById("bgMusic");
+            const muteBtn = document.getElementById("muteBtn");
+    
+            if (audio.muted) {
+                audio.muted = false;
+                muteBtn.innerText = "🎵 Music On";
+                muteBtn.style.backgroundColor = "#3498db";
+            } else {
+                audio.muted = true;
+                muteBtn.innerText = "🔇 Muted";
+                muteBtn.style.backgroundColor = "#7f8c8d";
+            }
+        }
+
+        // Check if the current drill has been completed in the local storage progress profile
+        function updateDrillStatus() {
+            let drillsData = learner.completedDrills[currentLevel];
+            let isCompleted = drillsData ? drillsData[currentDrill] : false;
+            
+            let statusText = isCompleted ? "✅ Completed!" : "🎯 In Progress";
+            document.getElementById("drillProgress").innerText = statusText;
+        } // Ensure this closing bracket cleanly ends updateDrillStatus!
+
+        // 🐹 NEW STANDALONE MASCOT HANDLERS:
+        function initializeMascotGreeting() {
+    const messageZone = document.getElementById("mascotDynamicMessage");
+    if (!messageZone) return;
+
+    if (currentLevel === "Emerging") {
+        messageZone.innerHTML = "Welcome to the Emerging level! We are going to discover multiplication using flowers, bicycles, and jumps! Pick a drill on the left to start! <img src='assets/emr.png' class='drill-graphic-item' style='width:32px; height:32px;'>";
+    } else if (currentLevel === "Developing") {
+        messageZone.innerHTML = "Ready to step up? In the Developing level, we will find missing factor numbers and make larger hops! Choose your first challenge!";
+    } else if (currentLevel === "Connecting") {
+        messageZone.innerHTML = "Fantastic! In the Connecting level, we are dealing with tricycles and jeepneys! How crazy is that?! Click a drill to jump in!";
+    } else if (currentLevel === "Benchmarking") {
+        messageZone.innerHTML = "Wow, you are getting so fast! Let's conquer the Benchmarking tracks using Jollibee's crispy fries and juicylicious yum burgers! Pick a grill, i mean drill and let's go! 😂";
+    } else if (currentLevel === "Advancing") {
+        messageZone.innerHTML = "This is it—the Ultimate Champion Arena! Get ready for my rapid-fire random Question Bank. Can you maintain a 5-win streak? ⚡🏆";
+    }
+}
+
+        // Function specifically tied to the Let's Go / OK button click!
+        function hideMascotOverlay() {
+            const overlay = document.getElementById("mascotTutorialOverlay");
+            if (overlay) {
+                overlay.classList.add("hidden-mascot-overlay");
+            }
+        }
+
+        // Tracking context callback variable when the level unlock button requires redirection
+        let postFeedbackAction = null;
+
+        // 🎊 GENERATES VIBRANT DYNAMIC falling confetti shards 
+        function startConfettiRain() {
+            const container = document.getElementById("confettiContainer");
+            if (!container) return;
+            
+            container.innerHTML = ""; // Clear old particles
+            container.classList.remove("hidden-mascot-overlay");
+
+            const colors = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6', '#ff6b6b'];
+            const totalConfettiCount = 100;
+
+            for (let i = 0; i < totalConfettiCount; i++) {
+                const piece = document.createElement("div");
+                piece.classList.add("confetti-piece");
+
+                // Distribute across screen randomly
+                piece.style.left = Math.random() * 100 + "vw";
+                // Stagger starting times so they fall continuously
+                piece.style.animationDelay = Math.random() * 4 + "s";
+                // Vary falling speeds for natural visual weight physics
+                piece.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                // Select a playful color
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Randomize shape types (squares vs rounded pills)
+                if (Math.random() > 0.5) {
+                    piece.style.borderRadius = "50%";
+                }
+
+                container.appendChild(piece);
+            }
+        }
+
+        function showGameFeedback(state, textMessage) {
+            const overlay = document.getElementById("gameFeedbackOverlay");
+            const title = document.getElementById("feedbackTitle");
+            const message = document.getElementById("feedbackMessage");
+            const imgElement = document.getElementById("feedbackMascotImg");
+            const btn = document.getElementById("feedbackBtn");
+
+            if (!overlay || !imgElement) return;
+
+            // Graphic asset specifications mapping matching your rules
+            const assetsMap = {
+                "Emerging":    { correct: "emr.png", wrong: "emw.png" },
+                "Developing":  { correct: "der.png", wrong: "dew.png" },
+                "Connecting":  { correct: "cor.png", wrong: "cow.png" },
+                "Benchmarking":{ correct: "ber.png", wrong: "bew.png" },
+                "Advancing":   { correct: "adr.png", wrong: "adw.png" }
+            };
+
+            const activeSet = assetsMap[currentLevel] || { correct: "Teach Hams.png", wrong: "Teach Hams.png" };
+
+            if (state === 'correct') {
+                title.innerText = "Fantastic!";
+                title.style.color = "#2ecc71"; // Success Green
+                imgElement.src = "assets/" + activeSet.correct;
+                btn.innerText = "Continue";
+                postFeedbackAction = null;
+            } 
+            else if (state === 'wrong') {
+                title.innerText = "Oops! Try Again";
+                title.style.color = "#e74c3c"; // Warning Red
+                imgElement.src = "assets/" + activeSet.wrong;
+                btn.innerText = "Try Again 🔄";
+                postFeedbackAction = null;
+            } 
+            else if (state === 'unlock') {
+                title.innerText = "LEVEL CLEARED! 🏆";
+                title.style.color = "#f1c40f"; // Gold Accent Name
+                imgElement.src = "assets/Teach Hams.png"; 
+                btn.innerText = "Go to Dashboard";
+                postFeedbackAction = () => { goToDashboard(); };
+            }
+
+            message.innerText = textMessage;
+            overlay.classList.remove("hidden-mascot-overlay");
+        }
+
+        function closeFeedbackOverlay() {
+            const overlay = document.getElementById("gameFeedbackOverlay");
+            if (overlay) {
+                overlay.classList.add("hidden-mascot-overlay");
+            }
+            
+            // Execute dashboard redirection if a level unlock completed
+            if (typeof postFeedbackAction === "function") {
+                postFeedbackAction();
+                postFeedbackAction = null; 
+            }
+        }
+
+        function loadDrillGame() {
+    const playground = document.getElementById("gamePlayground");
+    
+    console.log("Loading Game State -> Level:", currentLevel, "| Drill:", currentDrill);
+
+    // ==========================================
+    // 🐣 LEVEL 1: EMERGING LEVEL DRILLS
+    // ==========================================
+    if (currentLevel === 'Emerging') {
+        if (currentDrill === 'groups') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card groups-game-card">
+                    <div class="game-section visual-box">
+                        <p class="instruction">💡 Step 1: Look at the picture!</p>
+                        <div class="emoji-groups-container">
+                            <div class="emoji-group">
+                                <img src="assets/emflower.jpeg" class="drill-graphic-item" alt="flower">
+                                <img src="assets/emflower.jpeg" class="drill-graphic-item" alt="flower">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/emflower.jpeg" class="drill-graphic-item" alt="flower">
+                                <img src="assets/emflower.jpeg" class="drill-graphic-item" alt="flower">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section counting-boxes">
+                        <p class="instruction">💡 Step 2 & 3: Count the groups and the flowers!</p>
+                        <p class="sentence-builder">
+                            There are <span class="drop-zone" id="drop-groups" data-correct="2">?</span> groups. 
+                            Each group has <span class="drop-zone" id="drop-each" data-correct="2">?</span> flowers.
+                        </p>
+                    </div>
+                    <div class="game-section addition-box">
+                        <p class="instruction">💡 Step 4 & 5: Write the repeated addition sentence!</p>
+                        <p class="sentence-builder">
+                            <span class="drop-zone" id="drop-add1" data-correct="2">?</span> + 
+                            <span class="drop-zone" id="drop-add2" data-correct="2">?</span> = 
+                            <span class="drop-zone" id="drop-total1" data-correct="4">?</span>
+                        </p>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="instruction">💡 Step 6: Write the multiplication sentence!</p>
+                        <p class="sentence-builder">
+                            <span class="drop-zone" id="drop-mult1" data-correct="2">?</span> × 
+                            <span class="drop-zone" id="drop-mult2" data-correct="2">?</span> = 
+                            <span class="drop-zone" id="drop-total2" data-correct="4">?</span>
+                        </p>
+                    </div>
+
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">1</div>
+                            <div class="drag-item" draggable="true">2</div>
+                            <div class="drag-item" draggable="true">3</div>
+                            <div class="drag-item" draggable="true">4</div>
+                            <div class="drag-item" draggable="true">5</div>
+                            <div class="drag-item" draggable="true">6</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        if (currentDrill === 'arrays') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card arrays-game-card">
+                    <div class="game-section array-visual-box">
+                        <p class="instruction">💡 Step 1: Look at the picture! The bicycles are in neat rows and columns.</p>
+                        <div class="array-container-wrapper">
+                            <div class="row-indicator-labels">
+                                <span>Row 1 ➔</span><span>Row 2 ➔</span><span>Row 3 ➔</span>
+                            </div>
+                            <div class="array-grid-3x2">
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div> 
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div> 
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div> 
+                                <div class="array-cell"><img src="assets/bicycle.png" class="drill-graphic-item"></div>
+                            </div>
+                        </div>
+                        <div class="column-indicator-labels">
+                            <span>↑<br>Col 1</span><span>↑<br>Col 2</span>
+                        </div>
+                    </div>
+                    <div class="game-section counting-boxes">
+                        <p class="sentence-builder">
+                            How many rows? ➔ <span class="drop-zone" id="drop-rows" data-correct="3">?</span>
+                            How many columns? ➔ <span class="drop-zone" id="drop-cols" data-correct="2">?</span>
+                        </p>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="instruction">💡 Use the numbers of rows and columns to complete the multiplication sentence!</p>
+                        <p class="sentence-builder formula-step">
+                            <span class="drop-zone" id="drop-arr-rows" data-correct="3">?</span> × 
+                            <span class="drop-zone" id="drop-arr-cols" data-correct="2">?</span> = 
+                            <span class="drop-zone" id="drop-arr-total" data-correct="6">?</span>
+                        </p>
+                    </div>
+
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">1</div>
+                            <div class="drag-item" draggable="true">2</div>
+                            <div class="drag-item" draggable="true">3</div>
+                            <div class="drag-item" draggable="true">4</div>
+                            <div class="drag-item" draggable="true">5</div>
+                            <div class="drag-item" draggable="true">6</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        if (currentDrill === 'multiples') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card multiples-game-card">
+                    <div class="game-section equation-box">
+                        <p class="instruction">💡 Look at the multiplication sentence. There's a number missing!</p>
+                        <div class="target-equation">3 × 7 = <span class="multiples-total-zone" id="mult-total">?</span></div>
+                    </div>
+                    <div class="game-section sequence-box">
+                        <div class="multiples-track">
+                            <div class="track-node active-node" id="node-1" data-correct="3">?</div>
+                            <div class="track-node" id="node-2" data-correct="6">?</div>
+                            <div class="track-node" id="node-3" data-correct="9">?</div>
+                            <div class="track-node" id="node-4" data-correct="12">?</div>
+                            <div class="track-node" id="node-5" data-correct="15">?</div>
+                            <div class="track-node" id="node-6" data-correct="18">?</div>
+                            <div class="track-node" id="node-7" data-correct="21">?</div>
+                        </div>
+                    </div>
+                    <div class="game-section choices-box">
+                        <p class="instruction">💡 Count by the first number. Count as many times as the second number tells you.</p>
+                        <div class="multiples-choices-grid">
+                            <button class="choice-btn" onclick="selectMultiple(this, 3)">3</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 5)">5</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 6)">6</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 8)">8</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 9)">9</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 12)">12</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 15)">15</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 18)">18</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 20)">20</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 21)">21</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            currentStepIndex = 1;
+            return;
+        }
+
+        if (currentDrill === 'jumps') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card jumps-game-card">
+                    <div class="game-section equation-box">
+                        <p class="instruction">💡 Look at the multiplication sentence. We need to find the answer!</p>
+                        <div class="target-equation">2 × 6 = <span class="jumps-total-zone" id="jump-total-text">0</span></div>
+                    </div>
+                    <div class="game-section numberline-box">
+                        <p class="instruction">💡 Jump by as many as the first number. And jump as many times as the second number tells you.</p>
+                        <div class="canvas-container"><canvas id="numberLineCanvas" width="560" height="120"></canvas></div>
+                    </div>
+                    <div class="game-section slider-control-box">
+                        <p class="instruction">💡 Use the orange slider to count the jumps and find the answer.</p>
+                        <div class="slider-row">
+                            <span class="range-bound">0</span>
+                            <input type="range" id="jumpSlider" min="0" max="15" value="0" class="interactive-frog-slider" oninput="drawNumberLineGame(this.value)">
+                            <span class="range-bound">15</span>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkJumpsAnswer()">Check Answer!</button>
+                </div>
+            `;
+            setTimeout(() => drawNumberLineGame(0), 50);
+            return;
+        }
+    }
+
+    // ==========================================
+    // 🚀 LEVEL 2: DEVELOPING LEVEL DRILLS
+    // ==========================================
+    if (currentLevel === 'Developing') {
+        if (currentDrill === 'groups') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card groups-game-card">
+                    <div class="game-section visual-box">
+                        <div class="emoji-groups-container">
+                            <div class="emoji-group">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                                <img src="assets/flower.jpg" class="drill-graphic-item">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section counting-boxes">
+                        <p class="sentence-builder">There are <span class="drop-zone" id="drop-groups" data-correct="3">?</span> groups. Each group has <span class="drop-zone" id="drop-each" data-correct="2">?</span> flowers.</p>
+                    </div>
+                    <div class="game-section addition-box">
+                        <p class="sentence-builder"><span class="drop-zone" id="drop-add1" data-correct="2">?</span> + <span class="drop-zone" id="drop-add2" data-correct="2">?</span> + <span class="drop-zone" id="drop-add3" data-correct="2">?</span> = <span class="drop-zone" id="drop-total1" data-correct="6">?</span></p>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder"><span class="drop-zone" id="drop-mult1" data-correct="3">?</span> × <span class="drop-zone" id="drop-mult2" data-correct="2">?</span> = <span class="drop-zone" id="drop-total2" data-correct="6">?</span></p>
+                    </div>
+
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">2</div>
+                            <div class="drag-item" draggable="true">3</div>
+                            <div class="drag-item" draggable="true">4</div>
+                            <div class="drag-item" draggable="true">6</div>
+                            <div class="drag-item" draggable="true">8</div>
+                            <div class="drag-item" draggable="true">10</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        if (currentDrill === 'arrays') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card arrays-game-card">
+                    <div class="game-section array-visual-box">
+                        <p class="instruction">💡 The total is 9 jeepneys. Find the missing number of columns!</p>
+                        <div class="array-container-wrapper">
+                            <div class="row-indicator-labels"><span>Row 1 ➔</span><span>Row 2 ➔</span><span>Row 3 ➔</span></div>
+                            <div class="array-grid-3x2" style="grid-template-columns: repeat(3, 60px);">
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/Jeep.gif" class="drill-graphic-item"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder formula-step">
+                            3 × <span class="drop-zone" id="drop-arr-cols" data-correct="3">?</span> = <span class="drop-zone" id="drop-arr-total" data-correct="9">?</span>
+                        </p>
+                    </div>
+
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">1</div>
+                            <div class="drag-item" draggable="true">3</div>
+                            <div class="drag-item" draggable="true">6</div>
+                            <div class="drag-item" draggable="true">9</div>
+                            <div class="drag-item" draggable="true">12</div>
+                            <div class="drag-item" draggable="true">15</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        if (currentDrill === 'multiples') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card multiples-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">3 × 4 = <span class="multiples-total-zone" id="mult-total">?</span></div>
+                    </div>
+                    <div class="game-section sequence-box">
+                        <div class="multiples-track">
+                            <div class="track-node active-node" id="node-1" data-correct="3">?</div>
+                            <div class="track-node" id="node-2" data-correct="6">?</div>
+                            <div class="track-node" id="node-3" data-correct="9">?</div>
+                            <div class="track-node" id="node-4" data-correct="12">?</div>
+                        </div>
+                    </div>
+                    <div class="game-section choices-box">
+                        <div class="multiples-choices-grid">
+                            <button class="choice-btn" onclick="selectMultiple(this, 3)">3</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 4)">4</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 6)">6</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 8)">8</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 9)">9</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 10)">10</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 12)">12</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 15)">15</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            currentStepIndex = 1;
+            return;
+        }
+
+        if (currentDrill === 'jumps') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card jumps-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">3 × 5 = <span class="jumps-total-zone" id="jump-total-text">0</span></div>
+                    </div>
+                    <div class="game-section numberline-box">
+                        <div class="canvas-container"><canvas id="numberLineCanvas" width="560" height="120"></canvas></div>
+                    </div>
+                    <div class="game-section slider-control-box">
+                        <p class="instruction">💡 Use the orange slider to count the jumps and find the answer.</p>
+                        <div class="slider-row">
+                            <span class="range-bound">0</span>
+                            <input type="range" id="jumpSlider" min="0" max="20" value="0" class="interactive-frog-slider" oninput="drawUniversalJumpsHelper(this.value, 3, 20)">
+                            <span class="range-bound">20</span>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkCustomJumpsAnswer(15)">Check Answer!</button>
+                </div>
+            `;
+            setTimeout(() => drawUniversalJumpsHelper(0, 3, 20), 50);
+            return;
+        }
+    }
+
+    // ==========================================
+    // 🔗 LEVEL 3: CONNECTING LEVEL DRILLS (4x)
+    // ==========================================
+    if (currentLevel === 'Connecting') {
+        
+        // 1. Groups of Equal Quantities (4 x 3 = 12) 🎂
+        if (currentDrill === 'groups') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card groups-game-card">
+                    <div class="game-section visual-box">
+                        <div class="emoji-groups-container">
+                            <div class="emoji-group">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                                <img src="assets/tricy.gif" class="drill-graphic-item">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section counting-boxes">
+                        <p class="sentence-builder">There are <span class="drop-zone" id="drop-groups" data-correct="4">?</span> groups. Each group has <span class="drop-zone" id="drop-each" data-correct="3">?</span> tricycles.</p>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder"><span class="drop-zone" id="drop-mult1" data-correct="4">?</span> × <span class="drop-zone" id="drop-mult2" data-correct="3">?</span> = <span class="drop-zone" id="drop-total2" data-correct="12">?</span></p>
+                    </div>
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">1</div>
+                            <div class="drag-item" draggable="true">3</div> 
+                            <div class="drag-item" draggable="true">4</div> 
+                            <div class="drag-item" draggable="true">8</div> 
+                            <div class="drag-item" draggable="true">12</div>
+                            <div class="drag-item" draggable="true">15</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        // 2. Arrays with missing columns (4 x __ = 16) 🐼
+        if (currentDrill === 'arrays') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card arrays-game-card">
+                    <div class="game-section array-visual-box">
+                        <p class="instruction">💡 The total is 16 Modern Jeepneys. Find the missing number of columns!</p>
+                        <div class="array-container-wrapper">
+                            <div class="array-grid" style="display:grid; grid-template-columns: repeat(4, 50px); gap:10px;">
+                                <div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/ebus.gif" class="drill-graphic-item"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder formula-step">
+                            4 × <span class="drop-zone" id="drop-arr-cols" data-correct="4">?</span> = <span class="drop-zone" id="drop-arr-total" data-correct="16">?</span>
+                        </p>
+                    </div>
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">2</div> 
+                            <div class="drag-item" draggable="true">4</div> 
+                            <div class="drag-item" draggable="true">8</div> 
+                            <div class="drag-item" draggable="true">12</div> 
+                            <div class="drag-item" draggable="true">16</div>
+                            <div class="drag-item" draggable="true">18</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        // 3. Counting by Multiples (4 x 5 = __)
+        if (currentDrill === 'multiples') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card multiples-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">4 × 5 = <span class="multiples-total-zone" id="mult-total">?</span></div>
+                    </div>
+                    <div class="game-section sequence-box">
+                        <div class="multiples-track">
+                            <div class="track-node active-node" id="node-1" data-correct="4">?</div>
+                            <div class="track-node" id="node-2" data-correct="8">?</div>
+                            <div class="track-node" id="node-3" data-correct="12">?</div>
+                            <div class="track-node" id="node-4" data-correct="16">?</div>
+                            <div class="track-node" id="node-5" data-correct="20">?</div>
+                        </div>
+                    </div>
+                    <div class="game-section choices-box">
+                        <div class="multiples-choices-grid">
+                            <button class="choice-btn" onclick="selectMultiple(this, 2)">2</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 4)">4</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 5)">5</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 8)">8</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 12)">12</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 15)">15</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 16)">16</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 20)">20</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 21)">21</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 24)">24</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            currentStepIndex = 1;
+            return;
+        }
+
+        // 4. Equal Jumps on Number Line (4 x 6 = 24)
+        if (currentDrill === 'jumps') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card jumps-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">4 × 6 = <span class="jumps-total-zone" id="jump-total-text">0</span></div>
+                    </div>
+                    <div class="game-section numberline-box">
+                        <div class="canvas-container"><canvas id="numberLineCanvas" width="560" height="120"></canvas></div>
+                    </div>
+                    <div class="game-section slider-control-box">
+                        <p class="instruction">💡 Use the orange slider to count the jumps and find the answer.</p>
+                        <div class="slider-row">
+                            <span class="range-bound">0</span>
+                            <input type="range" id="jumpSlider" min="0" max="30" value="0" class="interactive-frog-slider" oninput="drawUniversalJumpsHelper(this.value, 4, 30)">
+                            <span class="range-bound">30</span>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkCustomJumpsAnswer(24)">Check Answer!</button>
+                </div>
+            `;
+            setTimeout(() => drawUniversalJumpsHelper(0, 4, 30), 50);
+            return;
+        }
+    }
+
+    // ==========================================
+    // 📐 LEVEL 4: BENCHMARKING LEVEL DRILLS (5x)
+    // ==========================================
+    if (currentLevel === 'Benchmarking') {
+        
+        // 1. Groups of Equal Quantities (5 x 4 = 20) 🐻
+        if (currentDrill === 'groups') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card groups-game-card">
+                    <div class="game-section visual-box">
+                        <div class="emoji-groups-container">
+                            <div class="emoji-group">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                            </div>
+                            <div class="emoji-group">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                                <img src="assets/fries.png" class="drill-graphic-item">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section counting-boxes">
+                        <p class="sentence-builder">There are <span class="drop-zone" id="drop-groups" data-correct="5">?</span> groups. Each group has <span class="drop-zone" id="drop-each" data-correct="4">?</span> fries.</p>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder"><span class="drop-zone" id="drop-mult1" data-correct="5">?</span> × <span class="drop-zone" id="drop-mult2" data-correct="4">?</span> = <span class="drop-zone" id="drop-total2" data-correct="20">?</span></p>
+                    </div>
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">4</div> 
+                            <div class="drag-item" draggable="true">5</div> 
+                            <div class="drag-item" draggable="true">8</div>
+                            <div class="drag-item" draggable="true">10</div> 
+                            <div class="drag-item" draggable="true">20</div>
+                            <div class="drag-item" draggable="true">30</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        // 2. Arrays with missing rows (__ x 5 = 25) 🍉
+        if (currentDrill === 'arrays') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card arrays-game-card">
+                    <div class="game-section array-visual-box">
+                        <p class="instruction">💡 The total is 25 burgers. Find the missing number of rows!</p>
+                        <div class="array-container-wrapper">
+                            <div class="array-grid" style="display:grid; grid-template-columns: repeat(5, 50px); gap:10px;">
+                                <div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div>
+                                <div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div><div class="array-cell"><img src="assets/burger.png" class="drill-graphic-item"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-section multiplication-box">
+                        <p class="sentence-builder formula-step">
+                            <span class="drop-zone" id="drop-arr-rows" data-correct="5">?</span> × 5 = <span class="drop-zone" id="drop-arr-total" data-correct="25">?</span>
+                        </p>
+                    </div>
+                    <div class="drill-interaction-zone">
+                        <p class="bank-label">Drag numbers from here into the question marks:</p>
+                        <div class="drag-options">
+                            <div class="drag-item" draggable="true">5</div>
+                            <div class="drag-item" draggable="true">10</div>
+                            <div class="drag-item" draggable="true">15</div>
+                            <div class="drag-item" draggable="true">20</div>
+                            <div class="drag-item" draggable="true">25</div>
+                            <div class="drag-item" draggable="true">30</div>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkDrillAnswers()">Check Answers!</button>
+                </div>
+            `;
+            initDragAndDrop();
+            return;
+        }
+
+        // 3. Counting by Multiples (5 x 6 = __)
+        if (currentDrill === 'multiples') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card multiples-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">5 × 6 = <span class="multiples-total-zone" id="mult-total">?</span></div>
+                    </div>
+                    <div class="game-section sequence-box">
+                        <div class="multiples-track">
+                            <div class="track-node active-node" id="node-1" data-correct="5">?</div>
+                            <div class="track-node" id="node-2" data-correct="10">?</div>
+                            <div class="track-node" id="node-3" data-correct="15">?</div>
+                            <div class="track-node" id="node-4" data-correct="20">?</div>
+                            <div class="track-node" id="node-5" data-correct="25">?</div>
+                            <div class="track-node" id="node-6" data-correct="30">?</div>
+                        </div>
+                    </div>
+                    <div class="game-section choices-box">
+                        <div class="multiples-choices-grid">
+                            <button class="choice-btn" onclick="selectMultiple(this, 5)">5</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 6)">6</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 10)">10</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 12)">12</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 15)">15</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 18)">18</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 20)">20</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 24)">24</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 25)">25</button>
+                            <button class="choice-btn" onclick="selectMultiple(this, 30)">30</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            currentStepIndex = 1;
+            return;
+        }
+
+        // 4. Equal Jumps on Number Line (5 x 7 = 35)
+        if (currentDrill === 'jumps') {
+            playground.innerHTML = `
+                <div class="drill-interaction-card jumps-game-card">
+                    <div class="game-section equation-box">
+                        <div class="target-equation">5 × 7 = <span class="jumps-total-zone" id="jump-total-text">0</span></div>
+                    </div>
+                    <div class="game-section numberline-box">
+                        <div class="canvas-container"><canvas id="numberLineCanvas" width="560" height="120"></canvas></div>
+                    </div>
+                    <div class="game-section slider-control-box">
+                        <p class="instruction">💡 Use the orange slider to count the jumps and find the answer.</p>
+                        <div class="slider-row">
+                            <span class="range-bound">0</span>
+                            <input type="range" id="jumpSlider" min="0" max="40" value="0" class="interactive-frog-slider" oninput="drawUniversalJumpsHelper(this.value, 5, 40)">
+                            <span class="range-bound">40</span>
+                        </div>
+                    </div>
+                    <button class="check-game-btn" onclick="checkCustomJumpsAnswer(35)">Check Answer!</button>
+                </div>
+            `;
+            setTimeout(() => drawUniversalJumpsHelper(0, 5, 40), 50);
+            return;
+        }
+    }
+
+    // ==========================================
+    // 🌎 LEVEL 5: ADVANCING LEVEL (RANDOM QUESTION BANK)
+    // ==========================================
+    if (currentLevel === 'Advancing') {
+        loadQuestionBankEngine();
+        return;
+    }
+
+    playground.innerHTML = `<p class="placeholder-text">Select an active module to start playing.</p>`;
+}
+
+// Quick canvas renderer tailored to drawing 5 jumps of size 3
+function drawDevelopingJumps(val) {
+    // We adjust sizing properties natively to match a step scale up to 20
+    drawNumberLineGameUniversal(val, 3, 20); 
+}
+
+function checkDevelopingJumps() {
+    const ans = parseInt(document.getElementById("jumpSlider").value);
+    if(ans === 15) {
+        learner.completedDrills[currentLevel][currentDrill] = true;
+        localStorage.setItem("learnerProgress", JSON.stringify(learner));
+        updateDrillStatus();
+        if(!checkAndTriggerLevelUnlock()) alert("Splendid! 3 × 5 = 15! 🐸");
+    } else {
+        alert("Not quite! Keep sliding to complete 5 jumps of 3.");
+    }
+}
+
+// Universal Number Line Drawing Utility
+function drawNumberLineGameUniversal(sliderValue, sizePerJump, maxTicks) {
+    const canvas = document.getElementById("numberLineCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    document.getElementById("jump-total-text").innerText = sliderValue;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const startX = 30, endX = canvas.width - 30, centerY = 85;
+    const stepSize = (endX - startX) / maxTicks;
+
+    // Axis
+    ctx.beginPath(); ctx.moveTo(startX - 10, centerY); ctx.lineTo(endX + 10, centerY);
+    ctx.strokeStyle = "#2c3e50"; ctx.lineWidth = 3; ctx.stroke();
+
+    // Ticks & Labels
+    ctx.font = "bold 12px Fredoka"; ctx.textAlign = "center"; ctx.fillStyle = "#2c3e50";
+    for (let i = 0; i <= maxTicks; i++) {
+        let currentTickX = startX + (i * stepSize);
+        ctx.beginPath(); ctx.moveTo(currentTickX, centerY - 5); ctx.lineTo(currentTickX, centerY + 5);
+        ctx.strokeStyle = "#2c3e50"; ctx.lineWidth = 1.5; ctx.stroke();
+        if (i % 2 === 0 || i === maxTicks) ctx.fillText(i, currentTickX, centerY + 20);
+    }
+
+    // Arcs
+    const currentJumpsToDraw = Math.floor(sliderValue / sizePerJump);
+    ctx.strokeStyle = "#e67e22"; ctx.lineWidth = 3.5;
+    for (let jump = 0; jump < currentJumpsToDraw; jump++) {
+        let xFrom = startX + ((jump * sizePerJump) * stepSize);
+        let xTo = startX + (((jump + 1) * sizePerJump) * stepSize);
+        ctx.beginPath(); ctx.moveTo(xFrom, centerY);
+        ctx.quadraticCurveTo((xFrom + xTo) / 2, centerY - 45, xTo, centerY); ctx.stroke();
+        ctx.beginPath(); ctx.arc(xTo, centerY, 4, 0, 2 * Math.PI); ctx.fillStyle = "#d35400"; ctx.fill();
+    }
+}
+
+// THE VISUAL NUMBER LINE ENGINE
+function drawNumberLineGame(sliderValue) {
+    const canvas = document.getElementById("numberLineCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    
+    // Track update value in equation text zone
+    document.getElementById("jump-total-text").innerText = sliderValue;
+
+    // Clear canvas layout space
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const startX = 30;
+    const endX = canvas.width - 30;
+    const centerY = 85;
+    const totalPoints = 15;
+    const stepSize = (endX - startX) / totalPoints;
+
+    // 1. Draw Axis Base Line
+    ctx.beginPath();
+    ctx.moveTo(startX - 10, centerY);
+    ctx.lineTo(endX + 10, centerY);
+    ctx.strokeStyle = "#2c3e50";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // 2. Draw Ticks and Labels (0 to 15)
+    ctx.font = "bold 14px Fredoka";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#2c3e50";
+
+    for (let i = 0; i <= totalPoints; i++) {
+        let currentTickX = startX + (i * stepSize);
+        
+        // Small Tick mark lines
+        ctx.beginPath();
+        ctx.moveTo(currentTickX, centerY - 6);
+        ctx.lineTo(currentTickX, centerY + 6);
+        ctx.strokeStyle = "#2c3e50";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Print Numbers underneath ticks
+        ctx.fillText(i, currentTickX, centerY + 24);
+    }
+
+    // 3. FIX: Calculate how many jumps of size 2 can fit inside the current slider position
+    const sizePerJump = 2;
+    
+    // This tells the loop exactly how many jumps to draw based on where the slider is sitting
+    const currentJumpsToDraw = Math.floor(sliderValue / sizePerJump);
+
+    ctx.strokeStyle = "#e67e22";
+    ctx.lineWidth = 3.5;
+    
+    for (let jump = 0; jump < currentJumpsToDraw; jump++) {
+        let fromValue = jump * sizePerJump;
+        let toValue = fromValue + sizePerJump;
+
+        let xFrom = startX + (fromValue * stepSize);
+        let xTo = startX + (toValue * stepSize);
+        
+        // Create arc quadratic curve calculation points
+        let cpX = (xFrom + xTo) / 2;
+        let cpY = centerY - 45; // Height of arc jump
+
+        ctx.beginPath();
+        ctx.moveTo(xFrom, centerY);
+        ctx.quadraticCurveTo(cpX, cpY, xTo, centerY);
+        ctx.stroke();
+
+        // Add indicator dot at jump point anchors
+        ctx.beginPath();
+        ctx.arc(xTo, centerY, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = "#d35400";
+        ctx.fill();
+    }
+
+    // EXTRA VISUAL AID: If they land on an odd number like 13 or 15, 
+    // draw a tiny red reminder line to show it doesn't match a clean jump of 2!
+    if (sliderValue % sizePerJump !== 0) {
+        let currentTickX = startX + (sliderValue * stepSize);
+        ctx.beginPath();
+        ctx.arc(currentTickX, centerY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "#e74c3c";
+        ctx.fill();
+    }
+}
+
+// LEVEL VALIDATION & PROGRESS LOCK BREAKING ENGINE
+function checkJumpsAnswer() {
+    const slider = document.getElementById("jumpSlider");
+    const currentAnswer = parseInt(slider.value);
+
+    if (currentAnswer === 12) {
+        // 1. Mark current drill technique complete
+        learner.completedDrills[currentLevel][currentDrill] = true;
+        localStorage.setItem("learnerProgress", JSON.stringify(learner));
+        updateDrillStatus(); 
+
+        // 2. Run the universal check
+        const didUnlock = checkAndTriggerLevelUnlock();
+        
+        if (!didUnlock) {
+            alert("Splendid Jumps! 6 jumps of 2 lands exactly on 12! 🐸🌾 Complete the remaining drills to unlock the next level!");
+        }
+    } else {
+        alert(`You are currently at ${currentAnswer}. Keep sliding to make 6 jumps of 2!`);
+    }
+
+    // Default Fallback
+    playground.innerHTML = `<p class="placeholder-text">Select an active module to start playing.</p>`;
+}
+
+// Global scope tracking variables for Multiples Game
+let currentStepIndex = 1;
+
+// Universal rendering assistant for variable level jump bounds
+function drawUniversalJumpsHelper(sliderValue, sizePerJump, maxTicks) {
+    drawNumberLineGameUniversal(sliderValue, sizePerJump, maxTicks);
+}
+
+// Universal validation engine for custom target answers
+function checkCustomJumpsAnswer(targetValue) {
+    const slider = document.getElementById("jumpSlider");
+    const currentAnswer = parseInt(slider.value);
+
+    if (currentAnswer === targetValue) {
+            learner.completedDrills[currentLevel][currentDrill] = true;
+            localStorage.setItem("learnerProgress", JSON.stringify(learner));
+            updateDrillStatus(); 
+
+            const didUnlock = checkAndTriggerLevelUnlock();
+            if (!didUnlock) {
+                // 🐹 REPLACED ALERT:
+                showGameFeedback('correct', `Splendid Jumps! You landed exactly on ${targetValue}!`);
+            }
+        } else {
+            // 🐹 REPLACED ALERT:
+            showGameFeedback('wrong', `You are currently at ${currentAnswer}. Keep sliding to find the target answer!`);
+        }
+}
+
+function selectMultiple(button, value) {
+    const currentNode = document.getElementById(`node-${currentStepIndex}`);
+    if (!currentNode) return;
+
+    const expected = parseInt(currentNode.getAttribute("data-correct"));
+
+    if (value === expected) {
+            currentNode.innerText = value;
+            currentNode.classList.remove("active-node");
+            currentNode.style.backgroundColor = "#2ecc71";
+            currentNode.style.color = "white";
+
+            const totalNodes = document.querySelectorAll('.track-node').length;
+
+            if (currentStepIndex === totalNodes) {
+                const totalDisplayZone = document.getElementById("mult-total");
+                if (totalDisplayZone) totalDisplayZone.innerText = value;
+
+                learner.completedDrills[currentLevel][currentDrill] = true;
+                localStorage.setItem("learnerProgress", JSON.stringify(learner));
+                updateDrillStatus();
+
+                const didUnlock = checkAndTriggerLevelUnlock();
+                if (!didUnlock) {
+                    // 🐹 REPLACED ALERT:
+                    showGameFeedback('correct', `Incredible Skip Counting! You mastered the ${currentLevel} Multiples drill!`);
+                }
+            } else {
+                currentStepIndex++;
+                const nextNode = document.getElementById(`node-${currentStepIndex}`);
+                if (nextNode) nextNode.classList.add("active-node");
+            }
+        } else {
+            // 🐹 REPLACED ALERT:
+            showGameFeedback('wrong', "Incorrect number in sequence! Trace your skip counting steps carefully.");
+        }
+}
+
+function resetMultiplesGame() {
+    currentStepIndex = 1;
+    document.getElementById("track-count").innerText = "0";
+    document.getElementById("mult-total").innerText = "?";
+    document.getElementById("mult-total").classList.remove("solved-total");
+
+    const nodes = document.querySelectorAll('.track-node');
+    nodes.forEach((node, idx) => {
+        node.innerText = "?";
+        node.className = "track-node";
+        if (idx === 0) node.classList.add('active-node');
+    });
+}
+
+function celebrateMultiplesWin() {
+    // 1. Mark current drill technique complete
+    learner.completedDrills[currentLevel][currentDrill] = true;
+    localStorage.setItem("learnerProgress", JSON.stringify(learner));
+    updateDrillStatus(); 
+
+    // 2. Run the universal check
+    const didUnlock = checkAndTriggerLevelUnlock();
+    
+    if (!didUnlock) {
+        alert("Incredible Skip Counting! 3, 6, 9, 12, 15, 18, 21! You mastered this drill! 🧮🥳 Keep going to unlock the next level!");
+    }
+}
+
+// Updated Dynamic Drag & Drop Handling 
+function initDragAndDrop() {
+    const dragItems = document.querySelectorAll('.drag-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
+
+    dragItems.forEach((item, index) => {
+        // Unique IDs assigned dynamically to maintain element tracing
+        if(!item.id) item.id = `drag-item-node-${index}`;
+        
+        item.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', e.target.innerText);
+            e.target.classList.add('dragging');
+        });
+
+        item.addEventListener('dragend', (e) => {
+            e.target.classList.remove('dragging');
+        });
+    });
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.classList.add('hovered');
+        });
+
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('hovered');
+        });
+
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('hovered');
+            
+            const draggedNumber = e.dataTransfer.getData('text/plain');
+            zone.innerText = draggedNumber;
+            zone.classList.add('filled');
+            zone.classList.remove('incorrect', 'correct'); // Clear status on recalculation drop
+        });
+        
+        zone.addEventListener('click', () => {
+            zone.innerText = "?";
+            zone.classList.remove('filled', 'correct', 'incorrect');
+        });
+    });
+}
+
+function checkAndTriggerLevelUnlock() {
+    if (learner && learner.completedDrills && learner.completedDrills[currentLevel]) {
+        const levelData = learner.completedDrills[currentLevel];
+        const isLevelFullyComplete = levelData.groups && levelData.arrays && levelData.multiples && levelData.jumps;
+
+        if (isLevelFullyComplete) {
+            // 🏆 CASE A: THE ULTIMATE DRILL COMPLETION FINALE (Advancing Cleared)
+            if (currentLevel === "Advancing") {
+                // Start the confetti engine
+                startConfettiRain();
+                
+                // Show Teach Hams with a grand graduation congratulations message
+                showGameFeedback('unlock', `🎉 MATH UNIVERSE CHAMPION! 🎉\n\nIncredible job! You have completely solved and cleared EVERY SINGLE LEVEL in our Multiplication Drills! Teach Hams is so proud of you! You are officially a multiplication wizard! 👑🐹✨`);
+                
+                // Modify the button callback target so clicking "Go to Dashboard" also shuts off confetti
+                postFeedbackAction = () => {
+                    const confetti = document.getElementById("confettiContainer");
+                    if (confetti) confetti.classList.add("hidden-mascot-overlay");
+                    goToDashboard();
+                };
+                return true;
+            }
+
+            // 📁 CASE B: STANDARD INTERMEDIATE LEVEL UPDATES (Emerging -> Benchmarking)
+            if (currentLevel === "Emerging" && !learner.completedDrills.Developing) {
+                learner.completedDrills.Developing = { arrays: false, multiples: false, groups: false, jumps: false };
+            } else if (currentLevel === "Developing" && !learner.completedDrills.Connecting) {
+                learner.completedDrills.Connecting = { arrays: false, multiples: false, groups: false, jumps: false };
+            } else if (currentLevel === "Connecting" && !learner.completedDrills.Benchmarking) {
+                learner.completedDrills.Benchmarking = { arrays: false, multiples: false, groups: false, jumps: false };
+            } else if (currentLevel === "Benchmarking" && !learner.completedDrills.Advancing) {
+                learner.completedDrills.Advancing = { arrays: false, multiples: false, groups: false, jumps: false };
+            }
+
+            localStorage.setItem("learnerProgress", JSON.stringify(learner));
+
+            // Standard unlock layout notice popup using Teach Hams image
+            showGameFeedback('unlock', `CONGRATULATIONS! You have completed all drills for the ${currentLevel} level! Let's unlock your next adventure badge!`);
+            
+            return true;
+        }
+    }
+    return false;
+}
+
+// Check answers evaluation mechanics
+function checkDrillAnswers() {
+    const dropZones = document.querySelectorAll('.drop-zone');
+    let allCorrect = true;
+    let anyEmpty = false;
+
+    dropZones.forEach(zone => {
+        const currentVal = zone.innerText;
+        const correctVal = zone.getAttribute('data-correct');
+
+        if (currentVal === "?") {
+            anyEmpty = true;
+            allCorrect = false;
+            zone.classList.add('incorrect');
+            return;
+        }
+
+        if (currentVal === correctVal) {
+            zone.classList.remove('incorrect');
+            zone.classList.add('correct');
+        } else {
+            zone.classList.remove('correct');
+            zone.classList.add('incorrect');
+            allCorrect = false;
+        }
+    });
+
+    if (anyEmpty) {
+        alert("Oops! Don't forget to fill in all the blanks! 🧩");
+        return;
+    }
+
+    if (allCorrect) {
+            learner.completedDrills[currentLevel][currentDrill] = true;
+            localStorage.setItem("learnerProgress", JSON.stringify(learner));
+            updateDrillStatus();
+
+            const didUnlock = checkAndTriggerLevelUnlock();
+            if (!didUnlock) {
+                // 🐹 REPLACED ALERT:
+                showGameFeedback('correct', `Excellent work! You solved the ${currentDrill} puzzle correctly!`);
+            }
+        } else {
+            // 🐹 REPLACED ALERT:
+            showGameFeedback('wrong', "Some numbers are missing or misplaced! Review the items and try again.");
+        }
+}
+
+// State tracking variables for Question Bank mode
+let qBankTargetAnswer = 0;
+let qBankStreak = 0;
+const STREAK_REQUIRED = 5;
+
+function loadQuestionBankEngine() {
+    const playground = document.getElementById("gamePlayground");
+    
+    // Generate a fresh random equation based on current level tier
+    const challenge = generateRandomEquation(currentLevel);
+    qBankTargetAnswer = challenge.answer;
+
+    // Build alternative choice numbers (distractors)
+    const options = generateMultipleChoices(challenge.answer);
+
+    playground.innerHTML = `
+        <div class="drill-interaction-card qbank-game-card">
+            
+            <!-- Streak Header Progress -->
+            <div class="qbank-streak-tracker">
+                <p>Progress Streak: <strong>${qBankStreak} / ${STREAK_REQUIRED}</strong> ⭐</p>
+                <div class="streak-bar-outer">
+                    <div class="streak-bar-inner" style="width: ${(qBankStreak / STREAK_REQUIRED) * 100}%;"></div>
+                </div>
+            </div>
+
+            <!-- Main Question Area -->
+            <div class="game-section qbank-question-box">
+                <span class="qbank-level-badge">${currentLevel} Drill</span>
+                <h2 class="qbank-question-text">What is ${challenge.num1} × ${challenge.num2}?</h2>
+            </div>
+
+            <!-- Clickable Grid Options -->
+            <div class="qbank-options-grid">
+                ${options.map(num => `
+                    <button class="qbank-choice-btn" onclick="verifyQBankChoice(this, ${num})">${num}</button>
+                `).join('')}
+            </div>
+            
+            <p class="instruction" style="text-align: center;">Get 5 right in a row to complete this drill category!</p>
+        </div>
+    `;
+}
+
+// Generate balanced random equations specifically for the Advancing level
+function generateRandomEquation(level) {
+    const savedRules = JSON.parse(localStorage.getItem("teacherDrillRules")) || { num1: "any", num2: "any" };
+    
+    let num1;
+    let num2;
+
+    // Evaluate First Number
+    if (savedRules.num1 === "any") {
+        num1 = Math.floor(Math.random() * 9) + 2; // Default fallback random factor (2 to 10)
+    } else {
+        num1 = parseInt(savedRules.num1); // Force the exact number chosen by the teacher
+    }
+
+    // Evaluate Second Number
+    if (savedRules.num2 === "any") {
+        num2 = Math.floor(Math.random() * 9) + 2; // Default fallback random factor (2 to 10)
+    } else {
+        num2 = parseInt(savedRules.num2); // Force the exact number chosen by the teacher
+    }
+
+    // Calculate answer target directly from final evaluated values
+    qBankTargetAnswer = num1 * num2;
+
+    return { num1, num2, answer: num1 * num2 };
+}
+
+// Create smart choices close to the real answer so kids have to check carefully
+function generateMultipleChoices(correctAnswer) {
+    let choices = new Set([correctAnswer]);
+    
+    while(choices.size < 4) {
+        // Generate values within +/- 20% range of the target answer
+        let variance = Math.floor(Math.random() * 14) - 7; 
+        let alternate = correctAnswer + variance;
+        if (alternate > 0 && alternate !== correctAnswer) {
+            choices.add(alternate);
+        }
+    }
+    
+    // Convert to array and shuffle options thoroughly
+    return Array.from(choices).sort(() => Math.random() - 0.5);
+}
+
+// Process student choice
+function verifyQBankChoice(button, chosenValue) {
+    if (chosenValue === qBankTargetAnswer) {
+            button.style.backgroundColor = "#2ecc71";
+            button.style.color = "white";
+            qBankStreak++;
+
+            if (qBankStreak >= STREAK_REQUIRED) {
+                // Save progress
+                learner.completedDrills[currentLevel][currentDrill] = true;
+                localStorage.setItem("learnerProgress", JSON.stringify(learner));
+                updateDrillStatus();
+                qBankStreak = 0;
+
+                const didUnlock = checkAndTriggerLevelUnlock();
+                if (!didUnlock) {
+                    // 🐹 REPLACED ALERT:
+                    showGameFeedback('correct', `Outstanding! You nailed 5 answers in a row for ${currentDrill}! 🎉`);
+                }
+            } else {
+                setTimeout(loadQuestionBankEngine, 500);
+            }
+        } else {
+            button.classList.add('wrong-choice');
+            qBankStreak = 0; 
+            
+            // 🐹 REPLACED ALERT:
+            showGameFeedback('wrong', "Oops! That wasn't quite right. Streak reset! Let's try a fresh question.");
+            setTimeout(loadQuestionBankEngine, 1500);
+        }
+}
+    </script>
+</body>
+</html>
