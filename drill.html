@@ -1139,9 +1139,9 @@ function checkDevelopingJumps() {
         learner.completedDrills[currentLevel][currentDrill] = true;
         localStorage.setItem("learnerProgress", JSON.stringify(learner));
         updateDrillStatus();
-        if(!checkAndTriggerLevelUnlock()) alert("Splendid! 3 × 5 = 15! 🐸");
+        if(!checkAndTriggerLevelUnlock()) showGameFeedback('correct', "Splendid! 3 × 5 = 15! 🐸");
     } else {
-        alert("Not quite! Keep sliding to complete 5 jumps of 3.");
+        showGameFeedback('wrong',"Not quite! Keep sliding to complete 5 jumps of 3.");
     }
 }
 
@@ -1285,10 +1285,10 @@ function checkJumpsAnswer() {
         const didUnlock = checkAndTriggerLevelUnlock();
         
         if (!didUnlock) {
-            alert("Splendid Jumps! 6 jumps of 2 lands exactly on 12! 🐸🌾 Complete the remaining drills to unlock the next level!");
+            showGameFeedback('correct', "Splendid Jumps! 6 jumps of 2 lands exactly on 12! 🐸🌾 Complete the remaining drills to unlock the next level!");
         }
     } else {
-        alert(`You are currently at ${currentAnswer}. Keep sliding to make 6 jumps of 2!`);
+        showGameFeedback('wrong', `You are currently at ${currentAnswer}. Keep sliding to make 6 jumps of 2!`);
     }
 
     // Default Fallback
@@ -1386,7 +1386,7 @@ function celebrateMultiplesWin() {
     const didUnlock = checkAndTriggerLevelUnlock();
     
     if (!didUnlock) {
-        alert("Incredible Skip Counting! 3, 6, 9, 12, 15, 18, 21! You mastered this drill! 🧮🥳 Keep going to unlock the next level!");
+        showGameFeedback('correct', "Incredible Skip Counting! 3, 6, 9, 12, 15, 18, 21! You mastered this drill! 🧮🥳 Keep going to unlock the next level!");
     }
 }
 
@@ -1509,7 +1509,7 @@ function checkDrillAnswers() {
     });
 
     if (anyEmpty) {
-        alert("Oops! Don't forget to fill in all the blanks! 🧩");
+        showGameFeedback('wrong', "Oops! Don't forget to fill in all the blanks!");
         return;
     }
 
