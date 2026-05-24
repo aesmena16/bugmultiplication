@@ -133,7 +133,7 @@
         // Otherwise, if they came from the root or index page, show it!
         if (!previousPage.includes("drill.html")) {
             // This condition matches if they logged in from index.html or raw localhost root path
-            if (previousPage.includes("index.html") || previousPage === "http://127.0.0.1:5500/" || previousPage === "http://localhost:5500/") {
+            if (previousPage.includes("index.html") || previousPage === "http://127.0.0.1:5500/" || previousPage === "http://localhost:5500/" || previousPage === "https://aesmena16.github.io/bugmultiplication/") {
                 const overlay = document.getElementById("mascotDashboardOverlay");
                 if (overlay) {
                     overlay.classList.remove("hidden-mascot-overlay");
